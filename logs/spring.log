@@ -1,0 +1,162 @@
+2024-12-17T15:04:06.128Z  INFO 1 --- [main] jugger.JugglerApplicationKt              : Starting JugglerApplicationKt v0.0.1-SNAPSHOT using Java 17.0.2 with PID 1 (/app/app.jar started by root in /app)
+2024-12-17T15:04:06.131Z  INFO 1 --- [main] jugger.JugglerApplicationKt              : No active profile set, falling back to 1 default profile: "default"
+2024-12-17T15:04:07.046Z  INFO 1 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-17T15:04:07.095Z  INFO 1 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 40 ms. Found 1 JPA repository interfaces.
+2024-12-17T15:04:07.743Z  INFO 1 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-12-17T15:04:07.754Z  INFO 1 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-17T15:04:07.755Z  INFO 1 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.15]
+2024-12-17T15:04:07.836Z  INFO 1 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-17T15:04:07.837Z  INFO 1 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1636 ms
+2024-12-17T15:04:08.047Z  INFO 1 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-17T15:04:08.109Z  INFO 1 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.13.Final
+2024-12-17T15:04:08.112Z  INFO 1 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-12-17T15:04:08.352Z  INFO 1 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-17T15:04:08.371Z  INFO 1 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-17T15:04:08.454Z  INFO 1 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@341a8659
+2024-12-17T15:04:08.457Z  INFO 1 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-17T15:04:08.486Z  WARN 1 --- [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-17T15:04:08.990Z  INFO 1 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-17T15:04:09.022Z  INFO 1 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-17T15:04:09.657Z  WARN 1 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-17T15:04:09.677Z  WARN 1 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: beeafd21-b341-4b78-b97d-241a0a19d1c0
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-12-17T15:04:09.833Z DEBUG 1 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : 3 mappings in 'requestMappingHandlerMapping'
+2024-12-17T15:04:09.912Z DEBUG 1 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2024-12-17T15:04:09.942Z  INFO 1 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@338b49d3, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2aa7399c, org.springframework.security.web.context.SecurityContextHolderFilter@4bd5849e, org.springframework.security.web.header.HeaderWriterFilter@554c4eaa, org.springframework.security.web.authentication.logout.LogoutFilter@32e652b6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@39909d1a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7343922c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@11eed657, org.springframework.security.web.access.ExceptionTranslationFilter@6ed922e1, org.springframework.security.web.access.intercept.AuthorizationFilter@68ee3b6d]
+2024-12-17T15:04:10.028Z DEBUG 1 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2024-12-17T15:04:10.071Z DEBUG 1 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2024-12-17T15:04:10.186Z  INFO 1 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2024-12-17T15:04:10.198Z  INFO 1 --- [main] jugger.JugglerApplicationKt              : Started JugglerApplicationKt in 4.529 seconds (process running for 5.038)
+2024-12-17T15:04:31.789Z  INFO 1 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-17T15:04:31.790Z  INFO 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-17T15:04:31.791Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2024-12-17T15:04:31.791Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2024-12-17T15:04:31.791Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2024-12-17T15:04:31.792Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@1db7157f
+2024-12-17T15:04:31.793Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@7c781c42
+2024-12-17T15:04:31.793Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2024-12-17T15:04:31.794Z  INFO 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2024-12-17T15:04:31.813Z DEBUG 1 --- [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:04:31.816Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/register", parameters={}
+2024-12-17T15:04:31.818Z DEBUG 1 --- [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:04:31.896Z DEBUG 1 --- [http-nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [UserRegistrationDto(username=12, email=cbттkldfg;ggп554tuser2@example.com, password=strongpassword12 (truncated)...]
+2024-12-17T15:04:31.999Z DEBUG 1 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.username from users u1_0 where u1_0.username=?
+2024-12-17T15:04:32.007Z DEBUG 1 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.username from users u1_0 where u1_0.email=?
+2024-12-17T15:04:32.083Z DEBUG 1 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : insert into users (created_at,email,password,username) values (?,?,?,?)
+2024-12-17T15:04:32.111Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-12-17T15:04:32.112Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{message=User registered successfully, userId=29}]
+2024-12-17T15:04:32.125Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2024-12-17T15:09:05.952Z  INFO 1 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-17T15:09:05.955Z  INFO 1 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-12-17T15:09:05.959Z  INFO 1 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-12-17T15:10:08.495Z  INFO 1 --- [main] jugger.JugglerApplicationKt              : Starting JugglerApplicationKt v0.0.1-SNAPSHOT using Java 17.0.2 with PID 1 (/app/app.jar started by root in /app)
+2024-12-17T15:10:08.499Z  INFO 1 --- [main] jugger.JugglerApplicationKt              : No active profile set, falling back to 1 default profile: "default"
+2024-12-17T15:10:09.471Z  INFO 1 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-17T15:10:09.516Z  INFO 1 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 37 ms. Found 1 JPA repository interfaces.
+2024-12-17T15:10:10.139Z  INFO 1 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-12-17T15:10:10.153Z  INFO 1 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-17T15:10:10.154Z  INFO 1 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.15]
+2024-12-17T15:10:10.247Z  INFO 1 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-17T15:10:10.248Z  INFO 1 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1678 ms
+2024-12-17T15:10:10.449Z  INFO 1 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-17T15:10:10.512Z  INFO 1 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.13.Final
+2024-12-17T15:10:10.515Z  INFO 1 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-12-17T15:10:10.739Z  INFO 1 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-17T15:10:10.760Z  INFO 1 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-17T15:10:10.839Z  INFO 1 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@78d50a3c
+2024-12-17T15:10:10.842Z  INFO 1 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-17T15:10:10.873Z  WARN 1 --- [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-17T15:10:11.435Z  INFO 1 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-17T15:10:11.467Z  INFO 1 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-17T15:10:12.096Z  WARN 1 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-17T15:10:12.120Z  WARN 1 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: f15d8b03-b256-4166-9285-509b2a63174c
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-12-17T15:10:12.325Z DEBUG 1 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : 3 mappings in 'requestMappingHandlerMapping'
+2024-12-17T15:10:12.438Z DEBUG 1 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2024-12-17T15:10:12.485Z  INFO 1 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@19a31b9d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@a5bbaec, org.springframework.security.web.context.SecurityContextHolderFilter@7343922c, org.springframework.security.web.header.HeaderWriterFilter@7cdbaa50, org.springframework.security.web.authentication.logout.LogoutFilter@32fa809f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6f2e1024, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3c50ad4b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6d60899e, org.springframework.security.web.access.ExceptionTranslationFilter@e146f93, org.springframework.security.web.access.intercept.AuthorizationFilter@2aa7399c]
+2024-12-17T15:10:12.580Z DEBUG 1 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2024-12-17T15:10:12.628Z DEBUG 1 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2024-12-17T15:10:12.765Z  INFO 1 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2024-12-17T15:10:12.777Z  INFO 1 --- [main] jugger.JugglerApplicationKt              : Started JugglerApplicationKt in 4.762 seconds (process running for 5.253)
+2024-12-17T15:10:17.177Z  INFO 1 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-17T15:10:17.178Z  INFO 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-17T15:10:17.178Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2024-12-17T15:10:17.179Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2024-12-17T15:10:17.179Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2024-12-17T15:10:17.180Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@6bccd036
+2024-12-17T15:10:17.181Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@633fd91
+2024-12-17T15:10:17.181Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2024-12-17T15:10:17.181Z  INFO 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2024-12-17T15:10:17.201Z DEBUG 1 --- [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:10:17.204Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/register", parameters={}
+2024-12-17T15:10:17.206Z DEBUG 1 --- [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:10:17.281Z DEBUG 1 --- [http-nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [UserRegistrationDto(username=12, email=cbттkldfg;ggп554tuser2@example.com, password=strongpassword12 (truncated)...]
+2024-12-17T15:10:17.409Z DEBUG 1 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.username from users u1_0 where u1_0.username=?
+2024-12-17T15:10:17.441Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-12-17T15:10:17.442Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{error=Username already exists}]
+2024-12-17T15:10:17.456Z DEBUG 1 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 400 BAD_REQUEST
+2024-12-17T15:10:20.970Z DEBUG 1 --- [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:10:20.970Z DEBUG 1 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/register", parameters={}
+2024-12-17T15:10:20.971Z DEBUG 1 --- [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:10:20.973Z DEBUG 1 --- [http-nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [UserRegistrationDto(username=1b, email=cbттkldfg;ggп554tuser2@example.com, password=strongpassword12 (truncated)...]
+2024-12-17T15:10:20.976Z DEBUG 1 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.username from users u1_0 where u1_0.username=?
+2024-12-17T15:10:20.980Z DEBUG 1 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.username from users u1_0 where u1_0.email=?
+2024-12-17T15:10:20.983Z DEBUG 1 --- [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-12-17T15:10:20.984Z DEBUG 1 --- [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{error=Email already exists}]
+2024-12-17T15:10:20.985Z DEBUG 1 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 400 BAD_REQUEST
+2024-12-17T15:10:23.412Z DEBUG 1 --- [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:10:23.413Z DEBUG 1 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/register", parameters={}
+2024-12-17T15:10:23.413Z DEBUG 1 --- [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:10:23.415Z DEBUG 1 --- [http-nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [UserRegistrationDto(username=1b, email=cbтnkldfg;ggп554tuser2@example.com, password=strongpassword12 (truncated)...]
+2024-12-17T15:10:23.417Z DEBUG 1 --- [http-nio-8080-exec-5] org.hibernate.SQL                        : select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.username from users u1_0 where u1_0.username=?
+2024-12-17T15:10:23.421Z DEBUG 1 --- [http-nio-8080-exec-5] org.hibernate.SQL                        : select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.username from users u1_0 where u1_0.email=?
+2024-12-17T15:10:23.497Z DEBUG 1 --- [http-nio-8080-exec-5] org.hibernate.SQL                        : insert into users (created_at,email,password,username) values (?,?,?,?)
+2024-12-17T15:10:23.513Z DEBUG 1 --- [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-12-17T15:10:23.513Z DEBUG 1 --- [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{message=User registered successfully, userId=30}]
+2024-12-17T15:10:23.515Z DEBUG 1 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2024-12-17T15:36:41.602Z DEBUG 1 --- [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:36:41.603Z DEBUG 1 --- [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/register", parameters={}
+2024-12-17T15:36:41.604Z DEBUG 1 --- [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:36:41.605Z DEBUG 1 --- [http-nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [UserRegistrationDto(username=1b, email=cbтnkldfg;ggп554tuser2@example.com, password=strongpassword12 (truncated)...]
+2024-12-17T15:36:41.609Z DEBUG 1 --- [http-nio-8080-exec-9] org.hibernate.SQL                        : select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.username from users u1_0 where u1_0.username=?
+2024-12-17T15:36:41.612Z DEBUG 1 --- [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-12-17T15:36:41.613Z DEBUG 1 --- [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{error=Username already exists}]
+2024-12-17T15:36:41.615Z DEBUG 1 --- [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 400 BAD_REQUEST
+2024-12-17T15:36:43.554Z DEBUG 1 --- [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:36:43.555Z DEBUG 1 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/register", parameters={}
+2024-12-17T15:36:43.555Z DEBUG 1 --- [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:36:43.557Z DEBUG 1 --- [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [UserRegistrationDto(username=иb, email=cbтnkldfg;ggп554tuser2@example.com, password=strongpassword12 (truncated)...]
+2024-12-17T15:36:43.559Z DEBUG 1 --- [http-nio-8080-exec-1] org.hibernate.SQL                        : select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.username from users u1_0 where u1_0.username=?
+2024-12-17T15:36:43.562Z DEBUG 1 --- [http-nio-8080-exec-1] org.hibernate.SQL                        : select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.username from users u1_0 where u1_0.email=?
+2024-12-17T15:36:43.565Z DEBUG 1 --- [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-12-17T15:36:43.566Z DEBUG 1 --- [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{error=Email already exists}]
+2024-12-17T15:36:43.568Z DEBUG 1 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 400 BAD_REQUEST
+2024-12-17T15:36:44.803Z DEBUG 1 --- [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:36:44.804Z DEBUG 1 --- [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/register", parameters={}
+2024-12-17T15:36:44.804Z DEBUG 1 --- [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:36:44.806Z DEBUG 1 --- [http-nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [UserRegistrationDto(username=иb, email=cbтnklтfg;ggп554tuser2@example.com, password=strongpassword12 (truncated)...]
+2024-12-17T15:36:44.808Z DEBUG 1 --- [http-nio-8080-exec-4] org.hibernate.SQL                        : select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.username from users u1_0 where u1_0.username=?
+2024-12-17T15:36:44.812Z DEBUG 1 --- [http-nio-8080-exec-4] org.hibernate.SQL                        : select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.username from users u1_0 where u1_0.email=?
+2024-12-17T15:36:44.866Z DEBUG 1 --- [http-nio-8080-exec-4] org.hibernate.SQL                        : insert into users (created_at,email,password,username) values (?,?,?,?)
+2024-12-17T15:36:44.870Z DEBUG 1 --- [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-12-17T15:36:44.870Z DEBUG 1 --- [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{message=User registered successfully, userId=31}]
+2024-12-17T15:36:44.872Z DEBUG 1 --- [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2024-12-17T15:40:20.887Z DEBUG 1 --- [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:40:20.888Z DEBUG 1 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/register", parameters={}
+2024-12-17T15:40:20.889Z DEBUG 1 --- [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to jugger.models.AuthController#registerUser(UserRegistrationDto)
+2024-12-17T15:40:20.890Z DEBUG 1 --- [http-nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [UserRegistrationDto(username=иb, email=cbтnklтfg;ggп554tuser2@example.com, password=strongpassword12 (truncated)...]
+2024-12-17T15:40:20.893Z DEBUG 1 --- [http-nio-8080-exec-5] org.hibernate.SQL                        : select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.username from users u1_0 where u1_0.username=?
+2024-12-17T15:40:20.897Z DEBUG 1 --- [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-12-17T15:40:20.897Z DEBUG 1 --- [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{error=Username already exists}]
+2024-12-17T15:40:20.899Z DEBUG 1 --- [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 400 BAD_REQUEST
+2024-12-17T15:40:54.417Z  INFO 1 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-17T15:40:54.420Z  INFO 1 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-12-17T15:40:54.422Z  INFO 1 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
