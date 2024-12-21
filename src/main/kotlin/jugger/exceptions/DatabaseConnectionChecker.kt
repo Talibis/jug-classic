@@ -6,20 +6,19 @@ import org.springframework.stereotype.Component
 import java.sql.SQLException
 import javax.sql.DataSource
 
-
 @Component
 class DatabaseConnectionChecker {
     @Autowired
-    private val dataSource: DataSource? = null
+    private lateinit var dataSource: DataSource
 
     @PostConstruct
     fun checkDatabaseConnection() {
         try {
-            dataSource?.getConnection().use { connection ->
+            dataSource.connection.use { _ ->
                 println("Успешное подключение к базе данных!")
             }
         } catch (e: SQLException) {
-            System.err.println("Ошибка подключения к базе данных: " + e.message)
+            System.err.println("Ошибка подключения к базе данных: ${e.message}")
         }
     }
 }

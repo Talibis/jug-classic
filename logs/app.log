@@ -1230,3 +1230,6 @@ This generated password is for development use only. Your security configuration
 2024-12-21T05:10:07.760Z DEBUG 1 --- [http-nio-0.0.0.0-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
 2024-12-21T05:10:07.769Z DEBUG 1 --- [http-nio-0.0.0.0-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Character(id=1, email=testuser18@example.com, characterName=Talib, characterClass=PERUN, level=1, he (truncated)...]
 2024-12-21T05:10:07.771Z DEBUG 1 --- [http-nio-0.0.0.0-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2024-12-21T05:28:59.634Z  INFO 1 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-21T05:28:59.641Z  INFO 1 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-12-21T05:28:59.644Z  INFO 1 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
