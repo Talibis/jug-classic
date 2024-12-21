@@ -1,4 +1,4 @@
-package jugger.models
+package jugger.exceptions
 
 import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Autowired

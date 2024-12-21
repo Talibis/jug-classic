@@ -1,4 +1,4 @@
-package jugger.models
+package jugger.config
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
