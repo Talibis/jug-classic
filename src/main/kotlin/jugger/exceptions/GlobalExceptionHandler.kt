@@ -1,5 +1,6 @@
-package jugger.models
+package jugger.exceptions
 
+import jugger.models.ErrorResponse
 import org.slf4j.LoggerFactory
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus

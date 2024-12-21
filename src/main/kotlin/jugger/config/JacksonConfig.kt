@@ -1,4 +1,4 @@
-package jugger.models
+package jugger.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature

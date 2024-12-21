@@ -1,4 +1,4 @@
-package jugger.models
+package jugger.controllers
 
 import javax.validation.Valid
 import jugger.services.UserService
@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 import jugger.interfaces.JwtTokenProvider
+import jugger.models.UserLoginDto
+import jugger.models.UserRegistrationDto
+import jugger.models.UserResponseDto
 
 @RestController
 @RequestMapping("/api/auth")

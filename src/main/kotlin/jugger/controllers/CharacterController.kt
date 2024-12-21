@@ -2,7 +2,6 @@ package jugger.controllers
 
 import jugger.interfaces.JwtTokenProvider
 import jugger.interfaces.UserRepository
-import jugger.interfaces.CharacterRepository
 import jugger.models.CharacterCreateRequest
 import jugger.services.UserService
 import jugger.services.CharacterService
