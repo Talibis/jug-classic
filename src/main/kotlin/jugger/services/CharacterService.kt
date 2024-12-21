@@ -22,22 +22,23 @@ class CharacterService(
     fun createCharacter(token: String, request: CharacterCreateRequest): Character? {
         try {
             // Извлечение username из токена
-            val username = jwtTokenProvider.extractUsername(token.substringAfter("Bearer "))
-            logger.info("Attempting to create character for user: $username")
+            val email = jwtTokenProvider.extractEmail(token.substringAfter("Bearer "))
+            logger.info("Attempting to create character for user: $email")
 
             // Найти пользователя
-            val user = userRepository.findByUsername(username)
-                .orElseThrow { RuntimeException("User not found: $username") }
+            val user = userRepository.findByEmail(email)
+                .orElseThrow { RuntimeException("User not found: $email") }
 
             // Проверить, что у пользователя еще нет персонажа
-            if (characterRepository.existsByUsername(username)) {
-                logger.warn("User already has a character: $username")
+            if (characterRepository.existsByEmail(email)) {
+                logger.warn("User already has a character: $email")
                 return null
             }
 
             // Создание нового персонажа
             val newCharacter = Character(
-                username = username,
+                email = email,
+                characterName = request.characterName,
                 characterClass = request.characterClass,
                 locationId = request.initialLocation,
                 user = user, // Используем извлеченного пользователя
@@ -57,7 +58,7 @@ class CharacterService(
             // Сохранение персонажа
             val savedCharacter = characterRepository.save(newCharacter)
 
-            logger.info("Character created successfully for user: $username")
+            logger.info("Character created successfully for user: $email")
             return savedCharacter
 
         } catch (e: Exception) {
@@ -66,7 +67,7 @@ class CharacterService(
         }
     }
 
-    fun findCharacterByUsername(username: String): Character? {
-        return characterRepository.findByUsername(username)
+    fun findCharacterByEmail(email: String): Character? {
+        return characterRepository.findByEmail(email)
     }
 }

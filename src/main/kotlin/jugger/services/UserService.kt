@@ -19,41 +19,16 @@ class UserService(
 
 
     @Transactional
-    fun registerNewUser(dto: UserRegistrationDto): UserResponseDto {
-        validateUsername(dto.username)
+    fun registerNewUser(dto: UserRegistrationDto): UserRegistrationResponseDto {
         validateEmail(dto.email)
         checkUserUniqueness(dto)
 
         val user = createNewUser(dto)
         val savedUser = userRepository.save(user)
 
-        // Генерация токена при регистрации
-        val token = jwtTokenProvider.generateToken(savedUser)
+        logger.info("User registered successfully: email={}", dto.email)
 
-        logger.info("User registered successfully: username={}", dto.username)
-
-        return mapToUserResponseDto(savedUser, token)
-    }
-
-    private fun validateUsername(username: String) {
-        val trimmedUsername = username.trim()
-
-        when {
-            trimmedUsername.length < 3 -> {
-                logger.warn("Username validation failed: too short ({})", trimmedUsername.length)
-                throw ValidationException("Username must be at least 3 characters long")
-            }
-
-            trimmedUsername.length > 20 -> {
-                logger.warn("Username validation failed: too long ({})", trimmedUsername.length)
-                throw ValidationException("Username must not exceed 20 characters")
-            }
-
-            !trimmedUsername.matches(Regex("^[a-zA-Z0-9_]+$")) -> {
-                logger.warn("Username validation failed: invalid characters")
-                throw ValidationException("Username can only contain letters, numbers, and underscores")
-            }
-        }
+        return mapToUserRegistrationResponseDto(savedUser)
     }
 
     private fun validateEmail(email: String) {
@@ -70,36 +45,38 @@ class UserService(
     private fun checkUserUniqueness(dto: UserRegistrationDto) {
         val errors = mutableListOf<String>()
 
-        if (userRepository.existsByUsername(dto.username)) {
-            logger.warn("Username already exists: {}", dto.username)
-            errors.add("Username already exists")
-        }
         if (userRepository.existsByEmail(dto.email)) {
             logger.warn("Email already exists: {}", dto.email)
             errors.add("Email already exists")
         }
-
         if (errors.isNotEmpty()) {
             throw ValidationException(errors.joinToString("; "))
         }
     }
 
     private fun createNewUser(dto: UserRegistrationDto): User {
-        logger.debug("Creating new user: username={}", dto.username)
+        logger.debug("Creating new user: email={}", dto.email)
         return User(
-            username = dto.username.trim(),
             email = dto.email.lowercase().trim(),
             password = passwordEncoder.encode(dto.password)
         )
     }
 
-    private fun mapToUserResponseDto(user: User, token: String? = null): UserResponseDto {
-        logger.debug("Mapping user to response DTO: username={}", user.username)
-        return UserResponseDto(
+    private fun mapToUserAuthResponseDto(user: User, token: String? = null): UserAuthResponseDto {
+        logger.debug("Mapping user to response DTO: email={}", user.email)
+        return UserAuthResponseDto(
             id = user.id ?: throw IllegalStateException("User ID cannot be null"),
-            username = user.username,
             email = user.email,
             token = token,
+            haveCharacter = user.haveCharacter
+        )
+    }
+
+    private fun mapToUserRegistrationResponseDto(user: User): UserRegistrationResponseDto {
+        logger.debug("Mapping user to registration response DTO: email={}", user.email)
+        return UserRegistrationResponseDto(
+            id = user.id ?: throw IllegalStateException("User ID cannot be null"),
+            email = user.email,
             haveCharacter = user.haveCharacter
         )
     }
@@ -109,25 +86,24 @@ class UserService(
         return email.matches(emailRegex)
     }
 
-    fun authenticateUser(dto: UserLoginDto): UserResponseDto {
+    fun authenticateUser(dto: UserLoginDto): UserAuthResponseDto {
         // Используйте .orElseThrow() или .get() для Optional
-        val user = userRepository.findByUsername(dto.username)
+        val user = userRepository.findByEmail(dto.email)
             .orElseThrow { UserNotFoundException("User not found") }
 
         // Проверка пароля
         if (!passwordEncoder.matches(dto.password, user.password)) {
-            logger.warn("Invalid password for user: ${dto.username}")
+            logger.warn("Invalid password for user: ${dto.email}")
             throw ValidationException("Invalid credentials")
         }
 
         // Генерация JWT токена при аутентификации
         val token = jwtTokenProvider.generateToken(user)
 
-        logger.info("User authenticated successfully: ${dto.username}")
-        return mapToUserResponseDto(user, token)
+        logger.info("User authenticated successfully: ${dto.email}")
+        return mapToUserAuthResponseDto(user, token)
     }
 
     // Исключения остаются прежними
     class UserNotFoundException(message: String) : RuntimeException(message)
-    class UserAlreadyExistsException(message: String) : RuntimeException(message)
 }

@@ -1,9 +1,7 @@
 package jugger.controllers
 
 import jugger.interfaces.JwtTokenProvider
-import jugger.interfaces.UserRepository
 import jugger.models.CharacterCreateRequest
-import jugger.services.UserService
 import jugger.services.CharacterService
 import jugger.models.ErrorResponse
 
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/character")
 class CharacterController(
     private val jwtTokenProvider: JwtTokenProvider,
-    private val userRepository: UserRepository,
     private val characterService: CharacterService
 ) {
     private val logger: Logger = LoggerFactory.getLogger(CharacterController::class.java)
@@ -28,20 +25,17 @@ class CharacterController(
         @RequestHeader("Authorization") token: String
     ): ResponseEntity<*> {
         // Извлечь username из токена
-        val username = jwtTokenProvider.extractUsername(token.replace("Bearer ", ""))
+        val email = jwtTokenProvider.extractEmail(token.replace("Bearer ", ""))
 
-        // Найти пользователя
-        val user = userRepository.findByUsername(username)
-            .orElseThrow { UserService.UserNotFoundException("User not found") }
 
         // Найти персонажа
-        val character = characterService.findCharacterByUsername(username)
+        val character = characterService.findCharacterByEmail(email)
             ?: return ResponseEntity.ok(mapOf("hasCharacter" to false))
 
         // Создаем DTO для возврата всех данных кроме времени создания и обновления
         val characterResponse = mapOf(
             "id" to character.id,
-            "username" to character.username,
+            "email" to character.email,
             "characterClass" to character.characterClass,
             "level" to character.level,
             "health" to character.health,

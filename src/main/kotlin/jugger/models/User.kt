@@ -13,10 +13,6 @@ data class User(
     val id: Long? = null,
 
     @Column(nullable = false, unique = true)
-    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
-    val username: String,
-
-    @Column(nullable = false, unique = true)
     @Email(message = "Invalid email format")
     @Size(max = 100, message = "Email must be less than 100 characters")
     val email: String,
