@@ -1,6 +1,6 @@
 services:
   app:
-    image: jugger:0.2.1
+    image: jugger:0.2.4
     ports:
       - "8080:8080"
     depends_on:

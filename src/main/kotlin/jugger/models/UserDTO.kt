@@ -37,7 +37,13 @@ data class UserLoginDto @JsonCreator constructor(
     val password: String
 )
 
-data class UserResponseDto(
+data class UserRegistrationResponseDto(
+    val id: Long,
+    val email: String,
+    val haveCharacter: Boolean
+)
+
+data class UserAuthResponseDto(
     val id: Long,
     val email: String,
     val token: String? = null,

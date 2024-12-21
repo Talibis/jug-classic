@@ -19,19 +19,16 @@ class UserService(
 
 
     @Transactional
-    fun registerNewUser(dto: UserRegistrationDto): UserResponseDto {
+    fun registerNewUser(dto: UserRegistrationDto): UserRegistrationResponseDto {
         validateEmail(dto.email)
         checkUserUniqueness(dto)
 
         val user = createNewUser(dto)
         val savedUser = userRepository.save(user)
 
-        // Генерация токена при регистрации
-        val token = jwtTokenProvider.generateToken(savedUser)
-
         logger.info("User registered successfully: email={}", dto.email)
 
-        return mapToUserResponseDto(savedUser, token)
+        return mapToUserRegistrationResponseDto(savedUser)
     }
 
     private fun validateEmail(email: String) {
@@ -65,12 +62,21 @@ class UserService(
         )
     }
 
-    private fun mapToUserResponseDto(user: User, token: String? = null): UserResponseDto {
+    private fun mapToUserAuthResponseDto(user: User, token: String? = null): UserAuthResponseDto {
         logger.debug("Mapping user to response DTO: email={}", user.email)
-        return UserResponseDto(
+        return UserAuthResponseDto(
             id = user.id ?: throw IllegalStateException("User ID cannot be null"),
             email = user.email,
             token = token,
+            haveCharacter = user.haveCharacter
+        )
+    }
+
+    private fun mapToUserRegistrationResponseDto(user: User): UserRegistrationResponseDto {
+        logger.debug("Mapping user to registration response DTO: email={}", user.email)
+        return UserRegistrationResponseDto(
+            id = user.id ?: throw IllegalStateException("User ID cannot be null"),
+            email = user.email,
             haveCharacter = user.haveCharacter
         )
     }
@@ -80,7 +86,7 @@ class UserService(
         return email.matches(emailRegex)
     }
 
-    fun authenticateUser(dto: UserLoginDto): UserResponseDto {
+    fun authenticateUser(dto: UserLoginDto): UserAuthResponseDto {
         // Используйте .orElseThrow() или .get() для Optional
         val user = userRepository.findByEmail(dto.email)
             .orElseThrow { UserNotFoundException("User not found") }
@@ -95,7 +101,7 @@ class UserService(
         val token = jwtTokenProvider.generateToken(user)
 
         logger.info("User authenticated successfully: ${dto.email}")
-        return mapToUserResponseDto(user, token)
+        return mapToUserAuthResponseDto(user, token)
     }
 
     // Исключения остаются прежними
