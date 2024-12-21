@@ -32,7 +32,10 @@ data class Character(
     val id: Long? = null,
 
     @Column(unique = true)
-    val username: String,
+    val email: String,
+
+    @Column(name = "character_name", unique = true)
+    val characterName: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "character_class")

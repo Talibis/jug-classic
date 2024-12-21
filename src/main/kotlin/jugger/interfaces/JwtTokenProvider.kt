@@ -16,7 +16,7 @@ class JwtTokenProvider(
     @Value("\${jwt.expiration}") private val jwtExpiration: Long
 ) {
     fun generateToken(user: User): String {
-        val claims = Jwts.claims().setSubject(user.username)
+        val claims = Jwts.claims().setSubject(user.email)
         claims["userId"] = user.id
         claims["email"] = user.email
 
@@ -40,26 +40,13 @@ class JwtTokenProvider(
         }
     }
 
-    fun extractUsername(token: String): String {
+    fun extractEmail(token: String): String {
         return try {
             Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .body
                 .subject
-        } catch (ex: Exception) {
-            throw IllegalArgumentException("Invalid token")
-        }
-    }
-
-    fun extractUserId(token: String): Long {
-        return try {
-            val claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .body
-
-            claims["userId"] as Long
         } catch (ex: Exception) {
             throw IllegalArgumentException("Invalid token")
         }
@@ -73,8 +60,6 @@ class JwtTokenProvider(
             .body
 
         val username = claims.subject
-        val userId = claims["userId"] as Int
-        val email = claims["email"] as String
 
         // Создаем список authorities (здесь простой пример, можно расширить)
         val authorities = listOf(SimpleGrantedAuthority("ROLE_USER"))

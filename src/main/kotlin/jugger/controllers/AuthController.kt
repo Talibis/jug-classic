@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-import jugger.interfaces.JwtTokenProvider
 import jugger.models.UserLoginDto
 import jugger.models.UserRegistrationDto
 import jugger.models.UserResponseDto
@@ -16,7 +15,6 @@ import jugger.models.UserResponseDto
 @RequestMapping("/api/auth")
 class AuthController(
     private val userService: UserService,
-    private val jwtTokenProvider: JwtTokenProvider  // Внедрение JwtTokenProvider
 ) {
     private val logger: Logger = LoggerFactory.getLogger(AuthController::class.java)
 
@@ -24,7 +22,7 @@ class AuthController(
     fun registerUser(
         @Valid @RequestBody registrationDto: UserRegistrationDto
     ): ResponseEntity<UserResponseDto> {
-        logger.info("Attempting to register user: ${registrationDto.username}")
+        logger.info("Attempting to register user: ${registrationDto.email}")
         val userResponse = userService.registerNewUser(registrationDto)
 
         return ResponseEntity.ok().body(userResponse)
@@ -34,7 +32,7 @@ class AuthController(
     fun loginUser(
         @Valid @RequestBody loginDto: UserLoginDto
     ): ResponseEntity<UserResponseDto> {
-        logger.info("Attempting to login user: ${loginDto.username}")
+        logger.info("Attempting to login user: ${loginDto.email}")
         val userResponse = userService.authenticateUser(loginDto)
         return ResponseEntity.ok().body(userResponse)
     }

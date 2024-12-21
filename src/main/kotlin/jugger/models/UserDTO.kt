@@ -5,10 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.constraints.*
 
 data class UserRegistrationDto @JsonCreator constructor(
-    @field:NotBlank(message = "Username cannot be blank")
-    @field:Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
-    @JsonProperty("username")
-    val username: String,
 
     @field:NotBlank(message = "Email cannot be blank")
     @field:Email(message = "Invalid email format")
@@ -26,13 +22,16 @@ data class CharacterCreateRequest @JsonCreator constructor(
     @JsonProperty("characterClass")
     val characterClass: CharacterClass,
 
+    @JsonProperty("characterName")
+    val characterName: String,
+
     @JsonProperty("initialLocation")
     val initialLocation: Long? = null
 )
 
 data class UserLoginDto @JsonCreator constructor(
-    @JsonProperty("username")
-    val username: String,
+    @JsonProperty("email")
+    val email: String,
 
     @JsonProperty("password")
     val password: String
@@ -40,7 +39,6 @@ data class UserLoginDto @JsonCreator constructor(
 
 data class UserResponseDto(
     val id: Long,
-    val username: String,
     val email: String,
     val token: String? = null,
     val haveCharacter: Boolean
