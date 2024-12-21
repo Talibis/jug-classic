@@ -20,13 +20,17 @@ class UserService(
 
     @Transactional
     fun registerNewUser(dto: UserRegistrationDto): UserRegistrationResponseDto {
-        validateEmail(dto.email)
-        checkUserUniqueness(dto)
+        // Преобразуем email в lowercase перед валидацией и дальнейшей обработкой
+        val lowercaseEmail = dto.email.lowercase()
+        val dtoWithLowercaseEmail = dto.copy(email = lowercaseEmail)
 
-        val user = createNewUser(dto)
+        validateEmail(dtoWithLowercaseEmail.email)
+        checkUserUniqueness(dtoWithLowercaseEmail)
+
+        val user = createNewUser(dtoWithLowercaseEmail)
         val savedUser = userRepository.save(user)
 
-        logger.info("User registered successfully: email={}", dto.email)
+        logger.info("User registered successfully: email={}", dtoWithLowercaseEmail.email)
 
         return mapToUserRegistrationResponseDto(savedUser)
     }
@@ -87,20 +91,23 @@ class UserService(
     }
 
     fun authenticateUser(dto: UserLoginDto): UserAuthResponseDto {
+        // Преобразование email в lowercase перед поиском
+        val lowercaseEmail = dto.email.lowercase()
+
         // Используйте .orElseThrow() или .get() для Optional
-        val user = userRepository.findByEmail(dto.email)
+        val user = userRepository.findByEmail(lowercaseEmail)
             .orElseThrow { UserNotFoundException("User not found") }
 
         // Проверка пароля
         if (!passwordEncoder.matches(dto.password, user.password)) {
-            logger.warn("Invalid password for user: ${dto.email}")
+            logger.warn("Invalid password for user: $lowercaseEmail")
             throw ValidationException("Invalid credentials")
         }
 
         // Генерация JWT токена при аутентификации
         val token = jwtTokenProvider.generateToken(user)
 
-        logger.info("User authenticated successfully: ${dto.email}")
+        logger.info("User authenticated successfully: $lowercaseEmail")
         return mapToUserAuthResponseDto(user, token)
     }
 
