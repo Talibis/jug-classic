@@ -1,32 +1,26 @@
 package jugger.config
 
-import jugger.handlers.WebSocketAuthInterceptor
+import com.fasterxml.jackson.databind.ObjectMapper
+import jugger.handlers.WebSocketAuthHandler
+import jugger.handlers.WebSocketHandler
+import jugger.services.ChatService
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.messaging.simp.config.ChannelRegistration
-import org.springframework.messaging.simp.config.MessageBrokerRegistry
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker
-import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer
-import org.springframework.web.socket.config.annotation.StompEndpointRegistry
+import org.springframework.web.socket.config.annotation.EnableWebSocket
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 
 @Configuration
-@EnableWebSocketMessageBroker
+@EnableWebSocket
 class WebSocketConfig(
-    private val webSocketAuthInterceptor: WebSocketAuthInterceptor
-) : WebSocketMessageBrokerConfigurer {
+    private val webSocketHandler: WebSocketHandler,
+    private val webSocketAuthHandler: WebSocketAuthHandler
+) : WebSocketConfigurer {
 
-    override fun configureMessageBroker(config: MessageBrokerRegistry) {
-        config.enableSimpleBroker("/chat")
-        config.setApplicationDestinationPrefixes("/app")
-    }
-
-    override fun registerStompEndpoints(registry: StompEndpointRegistry) {
-        registry.addEndpoint("/ws")
-            .setAllowedOriginPatterns("*")
-            .withSockJS()
-    }
-
-    // Добавьте конфигурацию interceptor
-    override fun configureClientInboundChannel(registration: ChannelRegistration) {
-        registration.interceptors(webSocketAuthInterceptor)
+    override fun registerWebSocketHandlers(registry: WebSocketHandlerRegistry) {
+        registry.addHandler(webSocketHandler, "/chat")
+            .addInterceptors(webSocketAuthHandler)
+            .setAllowedOrigins("*")
     }
 }
+

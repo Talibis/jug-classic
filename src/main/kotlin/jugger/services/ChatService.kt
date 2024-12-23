@@ -70,6 +70,7 @@ class ChatService(
                     ?: throw IllegalArgumentException("Message content is required")
             )
 
+
             logger.info("Attempting to save message: $message")
 
             val savedMessage = chatRepository.save(message)

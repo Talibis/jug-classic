@@ -1,80 +1,127 @@
 package jugger.handlers
 
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import jugger.models.ChatMessage
+import jugger.models.MessageType
 import jugger.services.ChatService
 import jugger.services.UserService
+import org.slf4j.LoggerFactory
+import org.springframework.boot.json.JsonParseException
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
-import com.fasterxml.jackson.databind.ObjectMapper
-import org.slf4j.LoggerFactory  // Правильный импорт
+import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
 import org.springframework.web.socket.handler.TextWebSocketHandler
-import org.springframework.web.socket.CloseStatus
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.CopyOnWriteArraySet
 
 @Component
-class ChatWebSocketHandler(
+class WebSocketHandler(
     private val chatService: ChatService,
-    private val userService: UserService,
     private val objectMapper: ObjectMapper
 ) : TextWebSocketHandler() {
 
-    private val logger = LoggerFactory.getLogger(ChatWebSocketHandler::class.java)
+    private val logger = LoggerFactory.getLogger(WebSocketHandler::class.java)
+    private val sessions = ConcurrentHashMap<String, WebSocketSession>()
 
-    @Throws(Exception::class)
-    override fun handleTextMessage(session: WebSocketSession, message: TextMessage) {
-        try {
-            val token = session.attributes["TOKEN"] as? String
-                ?: throw IllegalArgumentException("No token in session")
-
-            // Более детальная проверка типов
-            val rawPayload = objectMapper.readValue(message.payload, Map::class.java)
-
-            val payload = rawPayload.mapKeys { it.key.toString() }
-                .mapValues { it.value?.toString() }
-
-            val messageData = mapOf(
-                "type" to (payload["type"]
-                    ?: throw IllegalArgumentException("Message type is required")),
-                "content" to (payload["content"]
-                    ?: throw IllegalArgumentException("Message content is required"))
-            )
-
-            val chatMessage = chatService.processMessage(token, messageData)
-            logger.info("Message processed: ${chatMessage.id}")
-        } catch (e: Exception) {
-            logger.error("Error processing message", e)
-            session.sendMessage(TextMessage("Error: ${e.message}"))
-        }
-    }
-
-
-    @Throws(Exception::class)
     override fun afterConnectionEstablished(session: WebSocketSession) {
         try {
-            // Извлечение токена из заголовков при установлении соединения
-            val token = session.handshakeHeaders.getFirst("Authorization")
-                ?.removePrefix("Bearer ")
-                ?: throw IllegalArgumentException("No authorization token")
-
-            // Сохранение токена в атрибутах сессии для последующего использования
-            session.attributes["TOKEN"] = token
-
+            val token = extractToken(session)
             chatService.handleNewConnection(session, token)
-            logger.info("New WebSocket connection established")
+            sessions[session.id] = session
+            logger.info("New WebSocket connection: ${session.id}")
         } catch (e: Exception) {
-            logger.error("Error establishing connection", e)
+            logger.error("Connection error", e)
             session.close()
         }
     }
 
-    @Throws(Exception::class)
-    override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus) {
+    override fun handleTextMessage(session: WebSocketSession, message: TextMessage) {
         try {
-            val user = userService.getUserFromSession(session)
-            chatService.removeSession(session)
-            logger.info("WebSocket connection closed for user: ${user.email}")
+            val token = extractToken(session)
+
+            // Всегда преобразуем сообщение в JSON
+            val messageData = try {
+                // Попытка распарсить как JSON
+                objectMapper.readValue(
+                    message.payload,
+                    object : TypeReference<Map<String, Any>>() {}
+                ).mapValues { it.value.toString() }
+            } catch (e: Exception) {
+                // Если не JSON - принудительно создаем JSON
+                mapOf(
+                    "content" to message.payload,
+                    "type" to "TEXT",
+                    "timestamp" to System.currentTimeMillis().toString(),
+                    "originalPayload" to message.payload
+                )
+            }
+
+            // Гарантированно имеем валидный JSON
+            val processableMessage = when {
+                messageData.isEmpty() -> mapOf(
+                    "content" to message.payload,
+                    "type" to "TEXT",
+                    "timestamp" to System.currentTimeMillis().toString()
+                )
+                !messageData.containsKey("content") -> messageData + ("content" to message.payload)
+                !messageData.containsKey("type") -> messageData + ("type" to "TEXT")
+                !messageData.containsKey("timestamp") -> messageData + ("timestamp" to System.currentTimeMillis().toString())
+                else -> messageData
+            }
+
+            chatService.processMessage(token, processableMessage)
         } catch (e: Exception) {
-            logger.error("Error closing connection", e)
+            logger.error("Message processing error: ${e.message}", e)
+            sendErrorToClient(session, "Failed to process message: ${e.message}")
         }
     }
-}
 
+    // Дополнительный метод для отправки ошибки клиенту
+    private fun sendErrorToClient(session: WebSocketSession, errorMessage: String) {
+        if (session.isOpen) {
+            try {
+                val errorJson = objectMapper.writeValueAsString(
+                    mapOf(
+                        "type" to "ERROR",
+                        "message" to errorMessage
+                    )
+                )
+                session.sendMessage(TextMessage(errorJson))
+            } catch (e: Exception) {
+                logger.error("Failed to send error to client", e)
+            }
+        }
+    }
+
+    // Можно добавить метод очистки и нормализации входящего сообщения
+    private fun normalizeMessage(payload: String): Map<String, String> {
+        return mapOf(
+            "content" to payload.trim(),
+            "type" to MessageType.TEXT.name,
+            "timestamp" to System.currentTimeMillis().toString()
+        )
+    }
+
+    override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus) {
+        if (session.isOpen) {
+            session.close()
+        }
+        chatService.removeSession(session)
+        sessions.remove(session.id)
+        logger.info("WebSocket connection closed: ${session.id}, status: $status")
+    }
+
+    private fun extractToken(session: WebSocketSession): String {
+        // Извлечение токена из параметров запроса
+        val token = session.uri?.query
+            ?.split("&")
+            ?.find { it.startsWith("token=") }
+            ?.removePrefix("token=")
+            ?: throw IllegalArgumentException("No token provided")
+
+        return token
+    }
+}
