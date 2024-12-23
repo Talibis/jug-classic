@@ -71,4 +71,36 @@ class JwtTokenProvider(
             authorities
         )
     }
+
+    fun validateAndGetAuthentication(token: String): Authentication {
+        // Проверяем токен
+        if (!validateToken(token)) {
+            throw IllegalArgumentException("Invalid token")
+        }
+
+        // Извлекаем claims
+        val claims = Jwts.parser()
+            .setSigningKey(jwtSecret)
+            .parseClaimsJws(token)
+            .body
+
+        // Извлекаем email и userId
+        val email = claims.subject
+        val userId = claims["userId"] as? Long
+            ?: throw IllegalArgumentException("User ID not found in token")
+
+        // Создаем список authorities (можно расширить)
+        val authorities = listOf(SimpleGrantedAuthority("ROLE_USER"))
+
+        // Создаем Authentication объект
+        return UsernamePasswordAuthenticationToken(
+            org.springframework.security.core.userdetails.User(
+                email,
+                "",
+                authorities
+            ),
+            null,
+            authorities
+        )
+    }
 }

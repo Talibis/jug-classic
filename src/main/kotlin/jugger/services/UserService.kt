@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.socket.WebSocketSession
 import javax.validation.ValidationException
 
 @Service
@@ -90,6 +91,15 @@ class UserService(
         return email.matches(emailRegex)
     }
 
+    fun extractTokenFromSession(session: WebSocketSession): String {
+        // Вариант 1: Извлечение из URL-параметров
+        val uri = session.uri ?: throw IllegalArgumentException("No URI in session")
+        return uri.query?.split("&")
+            ?.find { it.startsWith("token=") }
+            ?.substringAfter("token=")
+            ?: throw IllegalArgumentException("Token not found in session")
+    }
+
     fun authenticateUser(dto: UserLoginDto): UserAuthResponseDto {
         // Преобразование email в lowercase перед поиском
         val lowercaseEmail = dto.email.lowercase()
@@ -109,6 +119,39 @@ class UserService(
 
         logger.info("User authenticated successfully: $lowercaseEmail")
         return mapToUserAuthResponseDto(user, token)
+    }
+
+    fun getUserFromToken(token: String): User {
+        // Расширенная валидация токена
+        require(token.isNotBlank()) { "Token cannot be blank" }
+
+        if (!jwtTokenProvider.validateToken(token)) {
+            logger.warn("Invalid token attempted: {}", token)
+            throw IllegalArgumentException("Invalid or expired token")
+        }
+
+        val email = jwtTokenProvider.extractEmail(token)
+            ?: throw IllegalArgumentException("Cannot extract email from token")
+
+        return userRepository.findByEmail(email.lowercase())
+            .orElseThrow {
+                logger.error("User not found for email: {}", email)
+                UserNotFoundException("User not found for email: $email")
+            }
+    }
+
+    fun getUserFromSession(session: WebSocketSession): User {
+        return try {
+            val token = extractTokenFromSession(session)
+            getUserFromToken(token)
+        } catch (e: Exception) {
+            logger.error("Error getting user from session", e)
+            throw e
+        }
+    }
+
+    fun extractEmailFromToken(token: String): String {
+        return jwtTokenProvider.extractEmail(token.substringAfter("Bearer "))
     }
 
     // Исключения остаются прежними

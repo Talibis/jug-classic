@@ -1,8 +1,8 @@
 services:
   app:
-    image: jugger:0.2.4
+    image: jugger:0.3.7
     ports:
-      - "8080:8080"
+      - "8081:8080"
     depends_on:
       - postgres
     environment:
