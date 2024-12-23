@@ -37,6 +37,9 @@ dependencies {
     implementation ("javax.xml.bind:jaxb-api:2.3.1")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation ("org.springframework.boot:spring-boot-starter-websocket")
+    implementation ("ch.qos.logback:logback-classic")
+    implementation ("org.slf4j:slf4j-api")
 
 
 
@@ -53,6 +56,8 @@ dependencies {
     // Тестирование
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 // Добавьте этот блок dependency management

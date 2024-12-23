@@ -81,8 +81,9 @@ class SecurityConfig(
             .csrf { it.disable() }
             .cors { it.configurationSource(corsConfigurationSource()) }
             .authorizeHttpRequests {
+                it.requestMatchers("/ws/**").permitAll() // Разрешите WebSocket эндпоинты
                 it.requestMatchers("/api/auth/**").permitAll()
-                it.requestMatchers("/character/**").authenticated() // Добавьте эту строку
+                it.requestMatchers("/character/**").authenticated()
                 it.anyRequest().authenticated()
             }
             .sessionManagement {

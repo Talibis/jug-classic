@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.socket.WebSocketSession
 import javax.validation.ValidationException
 
 @Service
@@ -20,13 +21,17 @@ class UserService(
 
     @Transactional
     fun registerNewUser(dto: UserRegistrationDto): UserRegistrationResponseDto {
-        validateEmail(dto.email)
-        checkUserUniqueness(dto)
+        // Преобразуем email в lowercase перед валидацией и дальнейшей обработкой
+        val lowercaseEmail = dto.email.lowercase()
+        val dtoWithLowercaseEmail = dto.copy(email = lowercaseEmail)
 
-        val user = createNewUser(dto)
+        validateEmail(dtoWithLowercaseEmail.email)
+        checkUserUniqueness(dtoWithLowercaseEmail)
+
+        val user = createNewUser(dtoWithLowercaseEmail)
         val savedUser = userRepository.save(user)
 
-        logger.info("User registered successfully: email={}", dto.email)
+        logger.info("User registered successfully: email={}", dtoWithLowercaseEmail.email)
 
         return mapToUserRegistrationResponseDto(savedUser)
     }
@@ -86,22 +91,67 @@ class UserService(
         return email.matches(emailRegex)
     }
 
+    fun extractTokenFromSession(session: WebSocketSession): String {
+        // Вариант 1: Извлечение из URL-параметров
+        val uri = session.uri ?: throw IllegalArgumentException("No URI in session")
+        return uri.query?.split("&")
+            ?.find { it.startsWith("token=") }
+            ?.substringAfter("token=")
+            ?: throw IllegalArgumentException("Token not found in session")
+    }
+
     fun authenticateUser(dto: UserLoginDto): UserAuthResponseDto {
+        // Преобразование email в lowercase перед поиском
+        val lowercaseEmail = dto.email.lowercase()
+
         // Используйте .orElseThrow() или .get() для Optional
-        val user = userRepository.findByEmail(dto.email)
+        val user = userRepository.findByEmail(lowercaseEmail)
             .orElseThrow { UserNotFoundException("User not found") }
 
         // Проверка пароля
         if (!passwordEncoder.matches(dto.password, user.password)) {
-            logger.warn("Invalid password for user: ${dto.email}")
+            logger.warn("Invalid password for user: $lowercaseEmail")
             throw ValidationException("Invalid credentials")
         }
 
         // Генерация JWT токена при аутентификации
         val token = jwtTokenProvider.generateToken(user)
 
-        logger.info("User authenticated successfully: ${dto.email}")
+        logger.info("User authenticated successfully: $lowercaseEmail")
         return mapToUserAuthResponseDto(user, token)
+    }
+
+    fun getUserFromToken(token: String): User {
+        // Расширенная валидация токена
+        require(token.isNotBlank()) { "Token cannot be blank" }
+
+        if (!jwtTokenProvider.validateToken(token)) {
+            logger.warn("Invalid token attempted: {}", token)
+            throw IllegalArgumentException("Invalid or expired token")
+        }
+
+        val email = jwtTokenProvider.extractEmail(token)
+            ?: throw IllegalArgumentException("Cannot extract email from token")
+
+        return userRepository.findByEmail(email.lowercase())
+            .orElseThrow {
+                logger.error("User not found for email: {}", email)
+                UserNotFoundException("User not found for email: $email")
+            }
+    }
+
+    fun getUserFromSession(session: WebSocketSession): User {
+        return try {
+            val token = extractTokenFromSession(session)
+            getUserFromToken(token)
+        } catch (e: Exception) {
+            logger.error("Error getting user from session", e)
+            throw e
+        }
+    }
+
+    fun extractEmailFromToken(token: String): String {
+        return jwtTokenProvider.extractEmail(token.substringAfter("Bearer "))
     }
 
     // Исключения остаются прежними

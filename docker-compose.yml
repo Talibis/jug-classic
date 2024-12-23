@@ -1,18 +1,20 @@
+version: '3.8'
+
 services:
   app:
-    image: jugger:0.2.4
+    image: jugger:0.3.21
     ports:
-      - "8080:8080"
+      - "8081:8080"
     depends_on:
       - postgres
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=password
-      - LOGGING_FILE_PATH=/app/logs  # Путь для логов приложения
+      - LOGGING_FILE_PATH=/app/logs
     volumes:
-      - ./logs:/app/logs  # Монтирование тома для логов приложения
-      - ./logs:/logs      # Дополнительное монтирование
+      - ./logs:/app/logs
+      - ./logs:/logs
     networks:
       - app-network
 
