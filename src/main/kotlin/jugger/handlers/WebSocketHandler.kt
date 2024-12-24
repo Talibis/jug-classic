@@ -2,20 +2,15 @@ package jugger.handlers
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
-import jugger.models.ChatMessage
 import jugger.models.MessageType
 import jugger.services.ChatService
-import jugger.services.UserService
 import org.slf4j.LoggerFactory
-import org.springframework.boot.json.JsonParseException
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
 import org.springframework.web.socket.handler.TextWebSocketHandler
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.CopyOnWriteArraySet
 
 @Component
 class WebSocketHandler(

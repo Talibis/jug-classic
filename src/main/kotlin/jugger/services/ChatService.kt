@@ -4,6 +4,7 @@ import jugger.interfaces.ChatRepository
 import org.springframework.stereotype.Service
 import java.util.concurrent.ConcurrentHashMap
 import com.fasterxml.jackson.databind.ObjectMapper
+import jugger.interfaces.UserRepository
 import jugger.models.ChatMessage
 import jugger.models.MessageType
 import org.slf4j.LoggerFactory
@@ -18,7 +19,8 @@ class ChatService(
     private val chatRepository: ChatRepository,
     private val userService: UserService,
     private val characterService: CharacterService, // Замените CharacterRepository на CharacterService
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    private val userRepository: UserRepository
 ) {
     private val locationSessions = ConcurrentHashMap<Long, MutableSet<WebSocketSession>>()
     private val logger = LoggerFactory.getLogger(ChatService::class.java)
@@ -54,9 +56,13 @@ class ChatService(
     fun processMessage(token: String, messageData: Map<String, String>): ChatMessage {
         return try {
             val email = userService.extractEmailFromToken(token)
+            val user = userRepository.findByEmail(email)
+                .orElseThrow { IllegalStateException("User not found") }
+
             val character = characterService.findCharacterByEmail(email)
                 ?: throw IllegalStateException("No character found for user")
 
+            // Используем ID пользователя из найденного пользователя
             val message = ChatMessage(
                 type = MessageType.valueOf(
                     messageData["type"]
@@ -64,12 +70,10 @@ class ChatService(
                 ),
                 locationId = character.locationId
                     ?: throw IllegalStateException("Character has no location"),
-                senderId = character.id
-                    ?: throw IllegalStateException("Character ID cannot be null"),
+                senderId = user, // Передаем полный объект User
                 content = messageData["content"]
                     ?: throw IllegalArgumentException("Message content is required")
             )
-
 
             logger.info("Attempting to save message: $message")
 

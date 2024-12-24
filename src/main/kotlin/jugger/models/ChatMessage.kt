@@ -16,8 +16,9 @@ data class ChatMessage(
     @Column(name = "location_id")
     val locationId: Long,
 
-    @Column(name = "sender_id")
-    val senderId: Long,
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    val senderId: User,
 
     @Column(name = "content", length = 1000)
     val content: String,
